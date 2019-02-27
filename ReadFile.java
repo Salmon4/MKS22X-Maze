@@ -1,22 +1,26 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-public class ReadFile {
-	private File text = new File("Maze1.txt");
-	private Scanner inf = new Scanner(text);
+public class ReadFile{
+	private File text;// = new File("Maze1.txt");
+	private Scanner inf;// = new Scanner(text);
 	private int row = 0; 
 	private int col = 0;
 	private char ary[][]; //= new Char[][];
 	
 	public ReadFile(){
+		fillAry();
+		
+	}
+	public void fillAry() throws FileNotFoundException{
+		text = new File("Maze1.txt");
+		inf = new Scanner(text);
 		while(inf.hasNextLine()){
 			row++;
 		}
 		col = inf.nextLine().length();
 		ary = new char[row][col];
-		
-	}
-	public void fillAry(){
+
 		int currentRow = 0;
 		int currentCol = 0;
 		while(inf.hasNextLine()){
@@ -38,11 +42,14 @@ public class ReadFile {
 			}
 			ans += "\n";
 		}
+		System.out.println("YES");
 		return ans;
 	}
   public static void main(String args[]) throws FileNotFoundException {
+try{
 	ReadFile test1 = new ReadFile();
-	System.out.println(toString());
+	System.out.println("YES");
+	System.out.println(test1.toString());
         //instead of a try/catch, you can throw the FileNotFoundException.
 
         //This is generally bad behavior
@@ -53,12 +60,18 @@ public class ReadFile {
         
 
         //inf stands for the input file
-
+	/**
         Scanner inf = new Scanner(text);
 
         while(inf.hasNextLine()){
             String line = inf.nextLine();
             System.out.println(line);//hopefully you can do other things with the line
-        }       
+        }  
+**/     
+}
+catch(FileNotFoundException e){
+	System.out.println("oh no");
+}
+	
     }   
 }
