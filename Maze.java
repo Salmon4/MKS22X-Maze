@@ -113,7 +113,7 @@ public class Maze{
 		}
 	}
             //find the location of the S. 
-	maze[r][c] = " ";
+	maze[r][c] = "@";
 
             //erase the S
 
@@ -140,8 +140,23 @@ public class Maze{
 
         All visited spots that are part of the solution are changed to '@'
     */
-    private int solve(int row, int col){ //you can add more parameters since this is private
-
+    private int solve(int row, int col,int steps){ //you can add more parameters since this is private
+	if (maze[row][col] == "E"){
+		return steps;
+	}
+	if (maze[row-1][col] == " "){//goes up
+	
+	}
+	if (maze[row+1][col] == " "){//goes down
+	
+	}
+	if (maze[row][col-1] == " "){//goes left
+	
+	}
+	if (maze[row][col+1] == " "){//goes right
+	
+	}
+	
 
         //automatic animation! You are welcome.
         if(animate){
@@ -154,7 +169,7 @@ public class Maze{
 
         //COMPLETE SOLVE
 
-        return -1; //so it compiles
+        //return -1; //so it compiles
     }
 
 
