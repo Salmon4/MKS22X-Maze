@@ -30,6 +30,7 @@ public class Maze{
 	Scanner inf1 = new Scanner(text);
 	int row = 0;
 	int col = 0;
+
 	col = inf.nextLine().length();
 	while(inf.hasNextLine()){
 		inf.nextLine();
@@ -101,17 +102,25 @@ public class Maze{
 
     */
     public int solve(){
-
+	int row;
+	int col;
+	for (int r = 0; r < maze.length; r++){
+		for (int c = 0; c < maze[r].length; c++){
+			if (maze[r][c] == "S"){
+				row = r;
+				col = c;
+			}
+		}
+	}
             //find the location of the S. 
-
+	maze[r][c] = " ";
 
             //erase the S
 
 
             //and start solving at the location of the s.
 
-            //return solve(???,???);
-		return 1;
+	return solve(row,col);
     }
 
     /*
