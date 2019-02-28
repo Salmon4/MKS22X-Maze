@@ -144,6 +144,10 @@ public class Maze{
 	if (maze[row][col] == "E"){
 		return steps;
 	}
+	if (maze[row][col] == " "){
+		steps++;
+	}
+	if (solve(row-1,col,steps){
 	if (maze[row-1][col] == " "){//goes up
 	
 	}
