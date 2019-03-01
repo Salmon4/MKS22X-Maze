@@ -102,25 +102,25 @@ public class Maze{
 
     */
     public int solve(){
-	int row;
-	int col;
+	int row = 0;
+	int col = 0;
 	for (int r = 0; r < maze.length; r++){
 		for (int c = 0; c < maze[r].length; c++){
-			if (maze[r][c] == "S"){
+			if (maze[r][c] == 'S'){
 				row = r;
 				col = c;
 			}
 		}
 	}
             //find the location of the S. 
-	maze[r][c] = "@";
+	//maze[row][col] = '@';
 
             //erase the S
 
 
             //and start solving at the location of the s.
 
-	return solve(row,col);
+	return solve(row,col,0);
     }
 
     /*
@@ -141,25 +141,76 @@ public class Maze{
         All visited spots that are part of the solution are changed to '@'
     */
     private int solve(int row, int col,int steps){ //you can add more parameters since this is private
-	if (maze[row][col] == "E"){
+	if (maze[row][col] == 'E'){
 		return steps;
 	}
-	if (maze[row][col] == " "){
+	if (maze[row][col] == ' ' || maze[row][col] == 'S'){
+		maze[row][col] = '@';
+	}
+	
+	if (maze[row][col] == ' ' || maze[row][col] == '@'){
+		maze[row][col] = '@';
+		if (solve(row-1,col,steps++) > steps){
+		return solve(row-1,col,steps++);
+		}
+		//maze[row][col] = '_';
+	}
+	if (maze[row][col] == ' ' || maze[row][col] == '@'){
+		maze[row][col] = '@';
+		if (solve(row+1,col,steps++) > steps){
+		return solve(row+1,col,steps++);
+		}
+		maze[row][col] = ' ';
+	}
+	if (maze[row][col] == ' ' || maze[row][col] == '@'){
+		maze[row][col] = '@';
+		if (solve(row,col-1,steps++) > steps){
+		return solve(row,col-1,steps++);
+		}
+		maze[row][col] = ' ';
+	}
+	if (maze[row][col] == ' ' || maze[row][col] == '@'){
+		maze[row][col] = '@';
+		if (solve(row,col+1,steps++) > steps){
+		return solve(row,col+1,steps++);
+		}
+		maze[row][col] = ' ';
+	}
+	if (maze[row][col] != '#'){
+	maze[row][col] = '.';
+	}
+	//return steps;
+	/**	
+	if (maze[row][col] == 'E'){
+		return steps;
+	}
+	if (maze[row][col] == ' ' || maze[row][col] == 'S'){
 		steps++;
 	}
-	if (solve(row-1,col,steps){
-	if (maze[row-1][col] == " "){//goes up
+	if (maze[row-1][col] == ' ' || maze[row-1][col] == 'E'){//goes up
+		maze[row][col] = '@';
+		solve(row-1,col,steps);
+		maze[row][col] = '.';
+	}
+	if (maze[row+1][col] == ' ' || maze[row-1][col] == 'E' ){//goes down
+		maze[row][col] = '@';
+		solve(row+1,col,steps);
+		maze[row][col] = '.';
 	
 	}
-	if (maze[row+1][col] == " "){//goes down
+	if (maze[row][col-1] == ' ' || maze[row-1][col] == 'E'){//goes left
+		maze[row][col] = '@';
+		solve(row,col-1,steps);
+		maze[row][col] = '.';
 	
 	}
-	if (maze[row][col-1] == " "){//goes left
+	if (maze[row][col+1] == ' ' || maze[row-1][col] == 'E'){//goes right
+		maze[row][col] = '@';
+		solve(row,col+1,steps);
+		maze[row][col] = '.';
 	
 	}
-	if (maze[row][col+1] == " "){//goes right
-	
-	}
+	**/
 	
 
         //automatic animation! You are welcome.
@@ -172,7 +223,7 @@ public class Maze{
         }
 
         //COMPLETE SOLVE
-
+return steps - 1;
         //return -1; //so it compiles
     }
 

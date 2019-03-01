@@ -7,7 +7,7 @@ public class Driver{
         Maze f;
         f = new Maze(filename);//true animates the maze. <-- not working
         //f.setAnimate(true);
-        //f.solve();
+        f.solve();
         System.out.println(f);
       }
 	catch(FileNotFoundException e){
