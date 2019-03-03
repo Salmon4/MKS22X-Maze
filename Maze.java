@@ -6,6 +6,7 @@ public class Maze{
     private char[][]maze;
     private boolean animate;//false by default
     private boolean found = false;
+    //private int correctSteps = 0;
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -102,6 +103,20 @@ public class Maze{
       Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
 
     */
+    public int countA(){
+      int ans = 0;
+      for (int r = 0; r < maze.length; r++){
+        for (int c = 0; c < maze[r].length; c++){
+          if (maze[r][c] == '@'){
+            ans += 1;
+          }
+        }
+      }
+      if (ans == 0){
+        return -1;
+      }
+      return ans;
+    }
     public int solve(){
 	int row = 0;
 	int col = 0;
@@ -120,8 +135,10 @@ public class Maze{
 
 
             //and start solving at the location of the s.
+            //correctSteps = 0;
 found = false;
-	return solve(row,col,0);
+  solve(row,col,0);
+  return countA();
     }
 
     /*
@@ -142,9 +159,12 @@ found = false;
         All visited spots that are part of the solution are changed to '@'
     */
     private int solve(int row, int col,int steps){ //you can add more parameters since this is private
+      //System.out.println(steps + "");
 	    if(maze[row][col] == 'E'){
+        //System.out.println(steps + "");
         found = true;
-         return steps;
+      //  correctSteps = steps;
+        return steps;
        }
        boolean placed = false;
       if (maze[row][col] == ' ' || maze[row][col] == 'S'){
@@ -153,21 +173,26 @@ found = false;
       }
       if (placed){
         solve(row+1,col,steps++);
+        //steps--;
         if (found){
           steps = solve(row+1,col,steps++);
           return steps;
         }
         solve(row-1,col,steps++);
+        steps--;
         if (found){
           steps = solve(row-1,col,steps++);
           return steps;
         }
+
         solve(row,col+1,steps++);
+        steps--;
         if (found){
           steps = solve(row,col+1,steps++);
           return steps;
         }
         solve(row,col-1,steps++);
+        steps--;
         if (found){
         steps = solve(row,col-1,steps++);
         return steps;
@@ -221,13 +246,16 @@ found = false;
         if(animate){
 
             clearTerminal();
+            System.out.println("STEP: "+ steps + "");
+            System.out.println("ROW: " + row);
+            System.out.println("COL: " + col);
             System.out.println(this);
 
             wait(20);
         }
 
         //COMPLETE SOLVE
-return steps;
+return -1;
         //return -1; //so it compiles
     }
 
