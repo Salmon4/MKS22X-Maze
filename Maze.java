@@ -5,6 +5,7 @@ public class Maze{
 
     private char[][]maze;
     private boolean animate;//false by default
+    private boolean found = false;
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -18,7 +19,7 @@ public class Maze{
       2. The maze has a border of '#' around the edges. So you don't have to check for out of bounds!
 
 
-      3. When the file is not found OR the file is invalid (not exactly 1 E and 1 S) then: 
+      3. When the file is not found OR the file is invalid (not exactly 1 E and 1 S) then:
 
          throw a FileNotFoundException or IllegalStateException
 
@@ -45,7 +46,7 @@ public class Maze{
 		}
 	}
     }
-    
+
 
     private void wait(int millis){
          try {
@@ -84,11 +85,11 @@ public class Maze{
     public String toString(){
 	String ans = "";
 	for (int r = 0; r < maze.length; r++){
-		for (int c = 0; c < maze[r].length; c++){	
+		for (int c = 0; c < maze[r].length; c++){
 			ans += maze[r][c];
 		}
 		ans += "\n";
-	}	
+	}
 	return ans;
 
     }
@@ -112,14 +113,14 @@ public class Maze{
 			}
 		}
 	}
-            //find the location of the S. 
+            //find the location of the S.
 	//maze[row][col] = '@';
 
             //erase the S
 
 
             //and start solving at the location of the s.
-
+found = false;
 	return solve(row,col,0);
     }
 
@@ -141,79 +142,82 @@ public class Maze{
         All visited spots that are part of the solution are changed to '@'
     */
     private int solve(int row, int col,int steps){ //you can add more parameters since this is private
-	if (maze[row][col] == 'E'){
-		return steps;
-	}
-	if (maze[row][col] == ' ' || maze[row][col] == 'S'){
-		maze[row][col] = '@';
-	}
-	
-	if (maze[row][col] == ' ' || maze[row][col] == '@'){
-		maze[row][col] = '@';
-		if (solve(row-1,col,steps++) > steps){
-		return solve(row-1,col,steps++);
-		}
-		//maze[row][col] = '_';
-	}
-	if (maze[row][col] == ' ' || maze[row][col] == '@'){
-		maze[row][col] = '@';
-		if (solve(row+1,col,steps++) > steps){
-		return solve(row+1,col,steps++);
-		}
-		maze[row][col] = ' ';
-	}
-	if (maze[row][col] == ' ' || maze[row][col] == '@'){
-		maze[row][col] = '@';
-		if (solve(row,col-1,steps++) > steps){
-		return solve(row,col-1,steps++);
-		}
-		maze[row][col] = ' ';
-	}
-	if (maze[row][col] == ' ' || maze[row][col] == '@'){
-		maze[row][col] = '@';
-		if (solve(row,col+1,steps++) > steps){
-		return solve(row,col+1,steps++);
-		}
-		maze[row][col] = ' ';
-	}
-	if (maze[row][col] != '#'){
-	maze[row][col] = '.';
-	}
-	//return steps;
-	/**	
-	if (maze[row][col] == 'E'){
-		return steps;
-	}
-	if (maze[row][col] == ' ' || maze[row][col] == 'S'){
-		steps++;
-	}
-	if (maze[row-1][col] == ' ' || maze[row-1][col] == 'E'){//goes up
-		maze[row][col] = '@';
-		solve(row-1,col,steps);
-		maze[row][col] = '.';
-	}
-	if (maze[row+1][col] == ' ' || maze[row-1][col] == 'E' ){//goes down
-		maze[row][col] = '@';
-		solve(row+1,col,steps);
-		maze[row][col] = '.';
-	
-	}
-	if (maze[row][col-1] == ' ' || maze[row-1][col] == 'E'){//goes left
-		maze[row][col] = '@';
-		solve(row,col-1,steps);
-		maze[row][col] = '.';
-	
-	}
-	if (maze[row][col+1] == ' ' || maze[row-1][col] == 'E'){//goes right
-		maze[row][col] = '@';
-		solve(row,col+1,steps);
-		maze[row][col] = '.';
-	
-	}
-	**/
-	
+	    if(maze[row][col] == 'E'){
+        found = true;
+         return steps;
+       }
+       boolean placed = false;
+      if (maze[row][col] == ' ' || maze[row][col] == 'S'){
+        maze[row][col] = '@';
+        placed = true;
+      }
+      if (placed){
+        solve(row+1,col,steps++);
+        if (found){
+          steps = solve(row+1,col,steps++);
+          return steps;
+        }
+        solve(row-1,col,steps++);
+        if (found){
+          steps = solve(row-1,col,steps++);
+          return steps;
+        }
+        solve(row,col+1,steps++);
+        if (found){
+          steps = solve(row,col+1,steps++);
+          return steps;
+        }
+        solve(row,col-1,steps++);
+        if (found){
+        steps = solve(row,col-1,steps++);
+        return steps;
+        }
+      }
+      if (placed){
+        maze[row][col] = '.';
+      }
+      // if(maze[row][col] == '#'){
+      //   return steps;
+    //   }
+    /**
+      if (maze[row+1][col] == ' '){
+        maze[row][col] = '@';
+        solve(row+1,col,steps+1);
+        if (found){
+          steps = solve(row+1,col,steps+1);
+          return steps;
+        }
+        maze[row][col] = '.';
+      }
+      if (maze[row-1][col] == ' '){
+        maze[row][col] = '@';
+        solve(row-1,col,steps+1);
+        if (found){
+          steps = solve(row-1,col,steps+1);
+          return steps;
+        }
+        maze[row][col] = '.';
+      }
+      if (maze[row][col+1] == ' '){
+        maze[row][col] = '@';
+        solve(row,col+1,steps+1);
+        if (found){
+          steps = solve(row,col+1,steps+1);
+          return steps;
+        }
+        maze[row][col] = '.';
+      }
+      if (maze[row][col-1] == ' '){
+        maze[row][col] = '@';
+        solve(row,col-1,steps+1);
+        if (found){
+          steps = solve(row,col-1,steps+1);
+          return steps;
+        }
+        maze[row][col] = '.';
+      }
+      **/
 
-        //automatic animation! You are welcome.
         if(animate){
 
             clearTerminal();
@@ -223,12 +227,9 @@ public class Maze{
         }
 
         //COMPLETE SOLVE
-return steps - 1;
+return steps;
         //return -1; //so it compiles
     }
 
 
 }
-
-
-

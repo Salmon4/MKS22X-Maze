@@ -1,13 +1,13 @@
 import java.util.*;
 import java.io.*;
 public class Driver{
-    public static void main(String[]args){   
+    public static void main(String[]args){
       String filename = "data1.dat";
       try{
         Maze f;
         f = new Maze(filename);//true animates the maze. <-- not working
         //f.setAnimate(true);
-        f.solve();
+        System.out.println(f.solve());
         System.out.println(f);
       }
 	catch(FileNotFoundException e){
