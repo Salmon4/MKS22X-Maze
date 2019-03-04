@@ -103,7 +103,7 @@ public class Maze{
       Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
 
     */
-    public int countA(){
+    private int countA(){
       int ans = 0;
       for (int r = 0; r < maze.length; r++){
         for (int c = 0; c < maze[r].length; c++){
@@ -246,9 +246,9 @@ found = false;
         if(animate){
 
             clearTerminal();
-            System.out.println("STEP: "+ steps + "");
-            System.out.println("ROW: " + row);
-            System.out.println("COL: " + col);
+          //  System.out.println("STEP: "+ steps + "");
+          //  System.out.println("ROW: " + row);
+          //  System.out.println("COL: " + col);
             System.out.println(this);
 
             wait(20);
